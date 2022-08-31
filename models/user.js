@@ -15,4 +15,13 @@ export default class User {
             throw error;
         }
     }
+
+    static async findUserByEmail(email) {
+        try {
+            const database = getDatabase();
+            return database.collection('users').findOne({ email });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
