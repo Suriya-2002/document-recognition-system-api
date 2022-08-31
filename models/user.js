@@ -21,7 +21,7 @@ export default class User {
             const database = getDatabase();
             return database.collection('users').findOne({ email });
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 }

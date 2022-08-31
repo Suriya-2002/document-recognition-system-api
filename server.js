@@ -13,4 +13,11 @@ app.use(express.static(join(ROOT_DIRECTORY, 'public')));
 
 app.use('/authentication', authenticationRoutes);
 
+app.use((error, req, res, next) => {
+    console.log(error);
+
+    const { message, statusCode = 500 } = error;
+    res.status(statusCode).json({ message, ...error });
+});
+
 connectDatabase(() => app.listen(2002, 'localhost'));
