@@ -13,3 +13,5 @@ export const BCRYPT_SALT_NUMBER = 12;
 
 export const JWT_SECRET_KEY = 'zSnAOxjKWwaONtcA54hr3B7ctmoBbFzv';
 export const JWT_EXPIRATION_TIME = '1h';
+
+export const IMAGE_MIMETYPE = ['image/png', 'image/jpg', 'image/jpeg'];
