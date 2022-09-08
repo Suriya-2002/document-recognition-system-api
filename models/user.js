@@ -20,7 +20,7 @@ export default class User {
         }
     }
 
-    async addImage(fileName) {
+    async addImages(fileName) {
         try {
             const database = getDatabase();
             const newImage = {

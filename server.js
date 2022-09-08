@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(express.static(join(ROOT_DIRECTORY, 'public')));
 app.use(
     multer({ storage, fileFilter }).fields([
-        { name: 'image', maxCount: 1 },
+        { name: 'image', maxCount: 10 },
         { name: 'document', maxCount: 1 },
     ])
 );

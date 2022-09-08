@@ -9,12 +9,13 @@ export const getFiles = async (req, res, next) => {
 
 export const postImage = async (req, res, next) => {
     try {
-        const [image] = req.files.image;
+        const images = req.files.image;
+        const fileName = images.map(image => image.filename);
         const { user } = req;
 
-        await user.addImage(image.filename);
+        await user.addImages(fileName);
 
-        res.status(201).json({ message: 'Uploaded image successfully', fileName: image.filename });
+        res.status(201).json({ message: 'Uploaded images successfully', fileName });
     } catch (error) {
         return next(error);
     }
