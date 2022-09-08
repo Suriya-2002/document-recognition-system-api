@@ -9,23 +9,28 @@ import servicesRoutes from './routes/services.js';
 import { autoAuthenticate } from './middleware/authentication.js';
 import { CORSHeaders } from './middleware/utilities.js';
 import { connectDatabase } from './utilities/database.js';
-import { ROOT_DIRECTORY, IMAGE_MIMETYPE } from './utilities/constants.js';
+import { ROOT_DIRECTORY, DOCUMENT_MIMETYPE } from './utilities/constants.js';
 
 const app = express();
 
 const storage = multer.diskStorage({
-    destination: (req, file, callback) => callback(null, join('public', 'images')),
+    destination: (req, file, callback) => callback(null, join('public', `${file.fieldname}s`)),
     filename: (req, file, callback) => callback(null, `${uniqueID()}-${file.originalname}`),
 });
 const fileFilter = (req, file, callback) => {
-    if (IMAGE_MIMETYPE.includes(file.mimetype)) return callback(null, true);
+    if (DOCUMENT_MIMETYPE.includes(file.mimetype)) return callback(null, true);
 
     return callback(null, false);
 };
 
 app.use(express.json());
 app.use(express.static(join(ROOT_DIRECTORY, 'public')));
-app.use(multer({ storage, fileFilter }).single('image'));
+app.use(
+    multer({ storage, fileFilter }).fields([
+        { name: 'image', maxCount: 1 },
+        { name: 'document', maxCount: 1 },
+    ])
+);
 
 app.use(CORSHeaders);
 app.use(autoAuthenticate);

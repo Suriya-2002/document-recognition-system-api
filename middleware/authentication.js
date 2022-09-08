@@ -1,5 +1,5 @@
 import JWT from 'jsonwebtoken';
-import { deleteImage } from '../utilities/helper-functions.js';
+import { deleteImage, deleteDocument } from '../utilities/helper-functions.js';
 
 import User from './../models/user.js';
 import { JWT_SECRET_KEY } from './../utilities/constants.js';
@@ -28,8 +28,11 @@ export const isAuthenticated = async (req, res, next) => {
 
         next();
     } catch (error) {
-        const image = req.file;
-        if (image) deleteImage(image.filename);
+        const images = req.files?.image;
+        const documents = req.files?.document;
+
+        if (images) deleteImage(images[0].filename);
+        if (documents) deleteDocument(documents[0].filename);
 
         return next(error);
     }

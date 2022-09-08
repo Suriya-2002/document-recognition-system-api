@@ -37,6 +37,23 @@ export default class User {
         }
     }
 
+    async addDocument(fileName) {
+        try {
+            const database = getDatabase();
+            const newDocument = {
+                fileName,
+                type: 'document',
+                uploadedAt: new Date(),
+            };
+
+            return database
+                .collection('users')
+                .updateOne({ _id: new ObjectId(this._id) }, { $push: { documents: newDocument } });
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async findUserByID(userID) {
         try {
             const database = getDatabase();
