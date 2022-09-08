@@ -5,6 +5,8 @@ import { isAuthenticated } from './../middleware/authentication.js';
 
 const router = Router();
 
+router.get('/files', isAuthenticated, servicesController.getFiles);
+
 router.post('/image', isAuthenticated, servicesController.postImage);
 router.post('/document', isAuthenticated, servicesController.postDocument);
 

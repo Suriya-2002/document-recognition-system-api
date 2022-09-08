@@ -8,7 +8,7 @@ export default class User {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.documents = [];
+        this.files = [];
     }
 
     async save() {
@@ -31,7 +31,7 @@ export default class User {
 
             return database
                 .collection('users')
-                .updateOne({ _id: new ObjectId(this._id) }, { $push: { documents: newImage } });
+                .updateOne({ _id: new ObjectId(this._id) }, { $push: { files: newImage } });
         } catch (error) {
             throw error;
         }
@@ -48,7 +48,18 @@ export default class User {
 
             return database
                 .collection('users')
-                .updateOne({ _id: new ObjectId(this._id) }, { $push: { documents: newDocument } });
+                .updateOne({ _id: new ObjectId(this._id) }, { $push: { files: newDocument } });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async fetchFiles() {
+        try {
+            const database = getDatabase();
+            return database
+                .collection('users')
+                .findOne({ _id: new ObjectId(this._id) }, { projection: { _id: 0, files: 1 } });
         } catch (error) {
             throw error;
         }

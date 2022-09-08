@@ -1,3 +1,12 @@
+export const getFiles = async (req, res, next) => {
+    try {
+        const { user } = req;
+        const files = await user.fetchFiles();
+
+        res.status(200).json({ message: 'Fetched files successfully', ...files });
+    } catch (error) {}
+};
+
 export const postImage = async (req, res, next) => {
     try {
         const [image] = req.files.image;
