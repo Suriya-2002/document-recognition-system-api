@@ -24,6 +24,7 @@ export default class User {
         try {
             const database = getDatabase();
             const newImage = {
+                _id: new ObjectId(),
                 fileName,
                 type: 'image',
                 uploadedAt: new Date(),
@@ -41,6 +42,7 @@ export default class User {
         try {
             const database = getDatabase();
             const newDocument = {
+                _id: new ObjectId(),
                 fileName,
                 type: 'document',
                 uploadedAt: new Date(),
@@ -60,6 +62,20 @@ export default class User {
             return database
                 .collection('users')
                 .findOne({ _id: new ObjectId(this._id) }, { projection: { _id: 0, files: 1 } });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async fetchFileByID(fileID) {
+        try {
+            const database = getDatabase();
+            return database
+                .collection('users')
+                .findOne(
+                    { _id: new ObjectId(this._id), 'files._id': { $in: [new ObjectId(fileID)] } },
+                    { projection: { _id: 0, files: 1 } }
+                );
         } catch (error) {
             throw error;
         }
