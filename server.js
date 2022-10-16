@@ -5,6 +5,7 @@ import multer from 'multer';
 import { v4 as uniqueID } from 'uuid';
 
 import authenticationRoutes from './routes/authentication.js';
+import userRoutes from './routes/user.js';
 import servicesRoutes from './routes/services.js';
 import { autoAuthenticate } from './middleware/authentication.js';
 import { CORSHeaders } from './middleware/utilities.js';
@@ -36,6 +37,7 @@ app.use(CORSHeaders);
 app.use(autoAuthenticate);
 
 app.use('/authentication', authenticationRoutes);
+app.use('/user', userRoutes);
 app.use('/services', servicesRoutes);
 
 app.use((error, req, res, next) => {

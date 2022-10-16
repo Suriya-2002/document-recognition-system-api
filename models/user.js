@@ -67,6 +67,17 @@ export default class User {
         }
     }
 
+    async fetchUserProfile() {
+        try {
+            const database = getDatabase();
+            return database
+                .collection('users')
+                .findOne({ _id: new ObjectId(this._id) }, { projection: { name: 1, email: 1 } });
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async fetchFileByID(fileID) {
         try {
             const database = getDatabase();
