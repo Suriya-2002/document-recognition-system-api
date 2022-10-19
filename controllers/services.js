@@ -18,8 +18,6 @@ export const getImage = async (req, res, next) => {
             files: [file],
         } = await user.fetchFileByID(imageID);
 
-        console.log(file);
-
         res.status(200).json({ message: 'Fetched image successfully', image: file });
     } catch (error) {
         return next(error);
