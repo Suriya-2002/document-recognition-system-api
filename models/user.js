@@ -61,7 +61,7 @@ export default class User {
             const database = getDatabase();
             return database
                 .collection('users')
-                .findOne({ _id: new ObjectId(this._id) }, { projection: { _id: 0, files: 1 } });
+                .findOne({ _id: new ObjectId(this._id) }, { projection: { _id: 0, 'files.fileName': 0 } });
         } catch (error) {
             throw error;
         }
@@ -81,12 +81,13 @@ export default class User {
     async fetchFileByID(fileID) {
         try {
             const database = getDatabase();
-            return database
-                .collection('users')
-                .findOne(
-                    { _id: new ObjectId(this._id), 'files._id': { $in: [new ObjectId(fileID)] } },
-                    { projection: { _id: 0, files: 1 } }
-                );
+            return database.collection('users').findOne(
+                {
+                    _id: new ObjectId(this._id),
+                    'files._id': new ObjectId(fileID),
+                },
+                { projection: { 'files.$': 1, _id: 0 } }
+            );
         } catch (error) {
             throw error;
         }
